@@ -10,7 +10,7 @@ public class Client
     private StreamWriter writer;
     private int numeroEquipe;
 
-    public int NumeroEquipe() => this.numeroEquipe;
+    public int NumeroEquipe => this.numeroEquipe;
 
     private String? Receive()
     {
