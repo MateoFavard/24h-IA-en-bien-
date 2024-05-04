@@ -79,7 +79,7 @@ public class InfosRoutes : IQuery<Route[]>
                 int.Parse(infos[2]),
                 int.Parse(infos[3]),
                 int.Parse(infos[4]),
-                infos[5].Equals("TRUE")
+                infos[5].ToUpper().Equals("TRUE")
             );
         }
 

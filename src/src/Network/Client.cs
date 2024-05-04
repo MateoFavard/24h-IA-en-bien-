@@ -1,5 +1,5 @@
 using System.Net.Sockets;
-using MyApp;
+using P24H.Exceptions;
 
 namespace P24H.Network;
 
@@ -15,11 +15,7 @@ public class Client
     private String? Receive()
     {
         String? messageText = this.reader.ReadLine();
-        if (messageText == null)
-        {
-            Console.WriteLine("<<< [NULL]");
-        }
-        else
+        if (messageText != null)
         {
             Console.WriteLine("<<< " + messageText);
         }
@@ -36,12 +32,10 @@ public class Client
     public void Start(String address, int port)
     {
         this.tcpClient = new TcpClient();
-        this.tcpClient.NoDelay = true;
         this.tcpClient.Connect(address, port);
         this.reader = new StreamReader(this.tcpClient.GetStream());
         this.writer = new StreamWriter(this.tcpClient.GetStream());
-        
-        this.Send(Program.NomEquipe);
+        this.writer.AutoFlush = true;
 
         bool running = true;
         while (running)
@@ -49,23 +43,32 @@ public class Client
             String? messageText = this.Receive();
             if (messageText != null)
             {
-                Notification message = Notification.Parse(messageText);
-                switch (message)
-                {
-                    case Notification.NumeroEquipe(int numero):
-                        this.numeroEquipe = numero;
-                        this.DebutPartie();
-                        break;
-                        
-                    case Notification.DebutTour(int numero) :
-                        this.Tour(numero);
-                        break;
-                    
-                    case Notification.Fin:
-                        this.FinPartie();
-                        break;
-                }
+                Notification message = Notification.Parse(messageText); 
+                this.OnNotification(message);
             }
+        }
+    }
+
+    private void OnNotification(Notification message)
+    {
+        switch (message)
+        {
+        case Notification.NomEquipe:
+            this.Send(Program.NomEquipe);
+            break;
+                        
+        case Notification.NumeroEquipe(int numero):
+            this.numeroEquipe = numero;
+            this.DebutPartie();
+            break;
+
+        case Notification.DebutTour(int numero):
+            this.Tour(numero);
+            break;
+
+        case Notification.Fin:
+            this.FinPartie();
+            break;
         }
     }
 
@@ -76,6 +79,15 @@ public class Client
     public void ExecuterCommande(ICommand commande)
     {
         this.Send(commande.BuildMessage());
+        String? messageText = this.Receive();
+        if (messageText == null)
+        {
+            throw new NullReferenceException("Réponse null");
+        }
+        if (messageText != "OK")
+        {
+            throw new NOKMessageException(messageText.Split('|')[1]);
+        }
     }
     
     public T Demander<T>(IQuery<T> demande)

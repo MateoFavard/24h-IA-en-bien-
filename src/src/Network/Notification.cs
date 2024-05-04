@@ -4,6 +4,8 @@ namespace P24H.Network;
 
 public record Notification()
 {
+    public record NomEquipe() : Notification;
+    
     public record NumeroEquipe(int numero) : Notification;
     
     public record DebutTour(int numero) : Notification;
@@ -23,8 +25,16 @@ public record Notification()
         {
             switch (parts[0])
             {
+            case "NOM_EQUIPE":
+                msg = new Notification.NomEquipe();
+                break;
+            
             case "DEBUT_TOUR":
                 msg = new Notification.DebutTour(int.Parse(parts[1]));
+                break;
+            
+            case "FIN":
+                msg = new Notification.Fin();
                 break;
             
             default:

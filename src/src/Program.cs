@@ -1,14 +1,17 @@
 ﻿using System;
+using P24H.IAs.FaitRien;
 
-namespace MyApp // Note: actual namespace depends on the project name.
+namespace P24H
 {
     internal class Program
     {
-        public static readonly string NomEquipe = "NOM_EQUIPE";
+        // MAX 9 caractères
+        public static readonly string NomEquipe = "CACA";
 
         static void Main(string[] args)
         {
-            Console.WriteLine("A.T.D.L.E.D.W.N.S.E!");
+            IAQuiFaitRien ia = new IAQuiFaitRien();
+            ia.Start("localhost", 1234);
         }
     }
 }
