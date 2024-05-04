@@ -2,6 +2,7 @@ namespace P24H.Model;
 
 public class Joueur
 {
+    private int numero;
     private int score;
     private int valeurAttaque;
     private int vie;
@@ -9,8 +10,10 @@ public class Joueur
     private int nbCoffres;
     private int valeurButins;
 
-    public Joueur(int score, int valeurAttaque, int vie, TypeActivite activite, int nbCoffres, int valeurButins)
+    public Joueur(int numero, int score, int valeurAttaque, int vie, TypeActivite activite, int nbCoffres,
+        int valeurButins)
     {
+        this.numero = numero;
         this.score = score;
         this.valeurAttaque = valeurAttaque;
         this.vie = vie;
@@ -18,6 +21,8 @@ public class Joueur
         this.nbCoffres = nbCoffres;
         this.valeurButins = valeurButins;
     }
+    
+    public int Numero => this.numero;
 
     public int Score => this.score;
 

@@ -9,8 +9,13 @@ public class Client
     private StreamReader reader;
     private StreamWriter writer;
     private int numeroEquipe;
+    private int actionsTour;
+
+    private const int MAX_NB_ACTION_TOUR = 15;
 
     public int NumeroEquipe => this.numeroEquipe;
+
+    public int IndexJoueur => this.numeroEquipe - 1;
 
     private String? Receive()
     {
