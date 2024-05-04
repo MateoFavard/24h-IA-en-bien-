@@ -48,8 +48,15 @@ public class Client
             String? messageText = this.Receive();
             if (messageText != null)
             {
-                Notification message = Notification.Parse(messageText); 
-                this.OnNotification(message);
+                try
+                {
+                    Notification message = Notification.Parse(messageText);
+                    this.OnNotification(message);
+                }
+                catch (UnknownMessageException exception)
+                {
+                    Console.WriteLine($"Message ignoré : {exception}");
+                }
             }
         }
     }
@@ -68,7 +75,16 @@ public class Client
             break;
 
         case Notification.DebutTour(int numero):
-            this.Tour(numero);
+            this.actionsTour = 0;
+            try
+            {
+                this.Tour(numero);
+            }
+            catch (P24HException exception)
+            {
+                Console.WriteLine($"Tour interrompu à cause de : {exception}");
+            }
+
             break;
 
         case Notification.Fin:
@@ -83,6 +99,8 @@ public class Client
 
     public void ExecuterCommande(ICommand commande)
     {
+        this.VerifierActionEstPossible(commande.TermineTour);
+
         this.Send(commande.BuildMessage());
         String? messageText = this.Receive();
         if (messageText == null)
@@ -94,12 +112,34 @@ public class Client
             throw new NOKMessageException(messageText.Split('|')[1]);
         }
     }
-    
+
     public T Demander<T>(IQuery<T> demande)
     {
+        this.VerifierActionEstPossible(demande.TermineTour);
+
         this.Send(demande.BuildQueryMessage());
         String? messageText = this.Receive();
         if (messageText == null) throw new NullReferenceException("Réponse null");
         return demande.ParseResponseMessage(messageText);
+    }
+
+    private void VerifierActionEstPossible(bool termineTour)
+    {
+        if (this.actionsTour < 0)
+        {
+            throw new TourDejaFiniException();
+        }
+        if (this.actionsTour >= MAX_NB_ACTION_TOUR)
+        {
+            throw new PlusDActionsPossiblesException();
+        }
+        if (termineTour)
+        {
+            this.actionsTour = -1;
+        }
+        else
+        {
+            this.actionsTour++;
+        }
     }
 }
