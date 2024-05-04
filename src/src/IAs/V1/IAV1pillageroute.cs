@@ -85,7 +85,7 @@ public class IAV1pillageroute : Client
                 }
 
                 if (meilleurRoute.ValeurCoffre1 >
-                    (meilleurJoueur.NbCoffres == 0 ? 0 : (meilleurJoueur.ValeurButins / meilleurJoueur.NbCoffres) * 2))
+                    (meilleurJoueur.NbCoffres == 0 ? 0 : (meilleurJoueur.ValeurButins / meilleurJoueur.NbCoffres) * listeJoueur.Count(j=>j.Activite == TypeActivite.Attaque))) // * nbGens qui attaque
                 {
                     this.ExecuterCommande(new Piller(meilleurRoute.Numero));
                 }
