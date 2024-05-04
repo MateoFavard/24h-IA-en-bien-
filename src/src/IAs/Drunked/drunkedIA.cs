@@ -17,11 +17,6 @@ namespace P24H.IAs.Drunked
         int aucuneRoute = 0;
         Joueur me = null;
 
-        public DrunkedIA()
-        {
-            Start("localhost", 1234);
-        }
-
         public override void Tour(int numeroDuTour)
         {
             
