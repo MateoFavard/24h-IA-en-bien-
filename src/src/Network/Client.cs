@@ -11,9 +11,9 @@ public class Client
     private int numeroEquipe;
     private bool tourFini;
 
-    public int NumeroEquipe() => this.numeroEquipe;
+    public int NumeroEquipe => this.numeroEquipe;
 
-    public int IndexJoueur() => this.numeroEquipe - 1;
+    public int IndexJoueur => this.numeroEquipe - 1;
 
     private String? Receive()
     {
