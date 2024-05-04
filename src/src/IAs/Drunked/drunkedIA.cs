@@ -10,7 +10,7 @@ namespace P24H.IAs.Drunked
 {
     public class DrunkedIA : Client
     {
-        int vieMinimumPourSeSoigner = 2;
+        int vieMinimumPourSeSoigner = 4;
         int argentMinimumPourRecruter = 800;
         int nombreCoffrePourVendre = 3;
         int aucuneRoute = 0;
