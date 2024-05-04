@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IA", "IA\IA.csproj", "{0239F099-3A01-48DE-A702-D902E1F7F9B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "src", "src\src.csproj", "{D1816FEC-D1A3-4920-8271-A08241B3458C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0239F099-3A01-48DE-A702-D902E1F7F9B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0239F099-3A01-48DE-A702-D902E1F7F9B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0239F099-3A01-48DE-A702-D902E1F7F9B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0239F099-3A01-48DE-A702-D902E1F7F9B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1816FEC-D1A3-4920-8271-A08241B3458C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1816FEC-D1A3-4920-8271-A08241B3458C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1816FEC-D1A3-4920-8271-A08241B3458C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1816FEC-D1A3-4920-8271-A08241B3458C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {69A53FCE-86A3-4C19-B282-31730C5A8E32}
+		SolutionGuid = {21E95C77-EE8C-4F7D-B5FF-51DE22CEFFAE}
 	EndGlobalSection
 EndGlobal
