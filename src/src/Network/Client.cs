@@ -13,6 +13,8 @@ public class Client
 
     public int NumeroEquipe() => this.numeroEquipe;
 
+    public int IndexJoueur() => this.numeroEquipe - 1;
+
     private String? Receive()
     {
         String? messageText = this.reader.ReadLine();
