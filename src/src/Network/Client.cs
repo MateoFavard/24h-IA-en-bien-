@@ -44,8 +44,15 @@ public class Client
             String? messageText = this.Receive();
             if (messageText != null)
             {
-                Notification message = Notification.Parse(messageText); 
-                this.OnNotification(message);
+                try
+                {
+                    Notification message = Notification.Parse(messageText);
+                    this.OnNotification(message);
+                }
+                catch (UnknownMessageException exception)
+                {
+                    Console.WriteLine($"Message ignoré : {exception}");
+                }
             }
         }
     }
@@ -65,7 +72,15 @@ public class Client
 
         case Notification.DebutTour(int numero):
             this.tourFini = false;
-            this.Tour(numero);
+            try
+            {
+                this.Tour(numero);
+            }
+            catch (P24HException exception)
+            {
+                Console.WriteLine($"Tour interrompu à cuase de : {exception}");
+            }
+
             break;
 
         case Notification.Fin:
