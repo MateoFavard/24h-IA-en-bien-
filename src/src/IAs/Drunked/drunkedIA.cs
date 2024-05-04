@@ -52,7 +52,7 @@ namespace P24H.IAs.Drunked
                         double moyenneScoreJoueurs = joueur.Average(r => r.Score) + 50;
                         double moyenneAttaqueRoutes = routes.Average(r => r.ValeurAttaque) - 10;
 
-                        if (me.Score > Constants.COUT_RECRUTEMENT + 100 && me.Score > moyenneScoreJoueurs)
+                        if (me.Score > Constants.COUT_RECRUTEMENT + 100 && me.Score > moyenneScoreJoueurs && moyenneAttaqueRoutes < me.ValeurAttaque)
                         {
                             this.ExecuterCommande(new Recruter());
                         }
