@@ -78,7 +78,7 @@ public class IAV1pillageroute : Client
                 {
                     if (route.ValeurAttaque < listeJoueur[this.IndexJoueur].ValeurAttaque && !route.PresenceMonstre)
                     {
-                        if (route.ValeurCoffre1 > meilleurRoute.ValeurCoffre1)
+                        if (route.ValeurCoffre1 > meilleurRoute.ValeurCoffre1 )
                         {
                             meilleurRoute = route;
                         }
@@ -86,7 +86,7 @@ public class IAV1pillageroute : Client
                 }
 
                 if (meilleurRoute.ValeurCoffre1 >
-                    ((meilleurJoueur.ValeurButins / (meilleurJoueur.NbCoffres + 1)) * meilleurJoueur.NbCoffres - 1))
+                    (meilleurJoueur.NbCoffres == 0 ? 0 : (meilleurJoueur.ValeurButins / meilleurJoueur.NbCoffres) * 2))
                 {
                     this.ExecuterCommande(new Piller(meilleurRoute.Numero));
                 }
@@ -98,7 +98,7 @@ public class IAV1pillageroute : Client
                     }
                     else
                     {
-                        this.ExecuterCommande(new Piller(meilleurRoute.Numero));
+                        this.ExecuterCommande(new Receler());
                     }
                     
                 }
