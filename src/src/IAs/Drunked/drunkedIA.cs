@@ -17,6 +17,8 @@ namespace P24H.IAs.Drunked
         int aucuneRoute = 0;
         Joueur me = null;
 
+        protected override string NomIA => "Darian";
+
         public override void Tour(int numeroDuTour)
         {
             
@@ -81,6 +83,20 @@ namespace P24H.IAs.Drunked
                     listRoutes[route][6]++;
                 }
             }
+            int numeroAttaque2 = -1;
+            int maxButin2 = 0;
+            foreach (List<int> route in listRoutes)
+            {
+                for (int i = route[6]; i < route.Count; i++)
+                {
+                    if (maxButin2 < route[i])
+                    {
+                        maxButin2 = route[i];
+                        numeroAttaque2 = route[0];
+                    }
+                }
+            }
+
             // On recupère les routes attaquable si moins fort + pas de monstre ^^ 
             List<List<int>> routesAttaquable = listRoutes.FindAll(list => list[4] <= me.ValeurAttaque && list[5] == 0 && list[6] <= 3);
             int numeroAttaque = -1;
@@ -96,6 +112,12 @@ namespace P24H.IAs.Drunked
                     }
                 }
             }
+            //if ( numeroAttaque != numeroAttaque2)
+            //{
+            //    Joueur connard = joueur.ToList().Find(x => Convert.ToInt32(x.Activite) == numeroAttaque2);
+            //    Console.WriteLine("############################ TRAHISON #######################################");
+            //    this.ExecuterCommande(new Trahir(connard.Numero));
+            //}
 
 /*
             // On recupère les routes attaquable si moins fort + pas de monstre ^^ 
@@ -130,7 +152,7 @@ namespace P24H.IAs.Drunked
                         double moyenneScoreJoueurs = joueur.Average(r => r.Score) + 50;
                         double moyenneAttaqueRoutes = routes.Average(r => r.ValeurAttaque) + 10;
 
-                        Route routeAttaqueReference = routes.ToList().OrderByDescending(o => o.ValeurAttaque).ToList()[1];
+                        Route routeAttaqueReference = routes.ToList().OrderByDescending(o => o.ValeurAttaque).ToList()[0];
                         if (this.me.ValeurAttaque <= routeAttaqueReference.ValeurAttaque && me.Score > Constants.COUT_RECRUTEMENT && me.Score > moyenneScoreJoueurs)
                         {
                             this.ExecuterCommande(new Recruter());
@@ -145,7 +167,7 @@ namespace P24H.IAs.Drunked
                         }
                         else // Aucune route à attaquer
                         {
-                            command = new Receler();
+                            command = Trahir(joueur);
                         }
                     }
                 }
@@ -154,23 +176,23 @@ namespace P24H.IAs.Drunked
             this.ExecuterCommande(command);
         }
 
-        /*private Trahir Trahir(Joueur[] joueurs)
+        private Trahir Trahir(Joueur[] joueurs)
         {
-            //int nbJoueur = joueurs.Count();
-            //List<Joueur> tries = joueurs.OrderByDescending(r => r.Score).ToList();
+            int nbJoueur = joueurs.Count();
+            List<Joueur> tries = joueurs.OrderByDescending(r => r.Score).ToList();
 
-            //int indexJoueur = tries.IndexOf(this.me);
-            //if (indexJoueur != nbJoueur-1)
-            //{
-            //    indexJoueur += 1;
-            //}
-            //else
-            //{
-            //    indexJoueur -= 1;
-            //}
-            //Joueur j = tries[indexJoueur];
-            
-            //return new Trahir(j.Numero);
-        }*/
+            int indexJoueur = tries.IndexOf(this.me);
+            if (indexJoueur != nbJoueur - 1)
+            {
+                indexJoueur += 1;
+            }
+            else
+            {
+                indexJoueur -= 1;
+            }
+            Joueur j = tries[indexJoueur];
+
+            return new Trahir(j.Numero);
+        }
     }
 }

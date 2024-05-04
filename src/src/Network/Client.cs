@@ -18,6 +18,8 @@ public class Client
 
     public int IndexJoueur => this.numeroEquipe - 1;
 
+    protected virtual String NomIA => Program.NomEquipe;
+
     private String? Receive()
     {
         String? messageText = this.reader.ReadLine();
@@ -66,7 +68,7 @@ public class Client
         switch (message)
         {
         case Notification.NomEquipe:
-            this.Send(Program.NomEquipe);
+            this.Send(this.NomIA);
             break;
                         
         case Notification.NumeroEquipe(int numero):

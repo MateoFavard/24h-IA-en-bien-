@@ -5,6 +5,8 @@ namespace P24H.IAs.FaitRien;
 
 public class IAV1pillageroute : Client
 {
+    protected override string NomIA => "Terror";
+
     public override void Tour(int numeroDuTour)
     {
         Joueur[] listeJoueur = this.Demander(new InfosJoueurs());
@@ -16,7 +18,7 @@ public class IAV1pillageroute : Client
         }
         
         //partie recrutement
-        if (numeroDuTour < 100)
+        if (numeroDuTour < 95)
         {
             if (listeJoueur[this.IndexJoueur].Score > 500)
             {
