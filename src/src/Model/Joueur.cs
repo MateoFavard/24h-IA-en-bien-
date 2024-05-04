@@ -14,7 +14,7 @@ public class Joueur
         int valeurButins)
     {
         this.numero = numero;
-        this.score = score;
+        this.Score = score;
         this.valeurAttaque = valeurAttaque;
         this.vie = vie;
         this.activite = activite;
@@ -24,7 +24,11 @@ public class Joueur
     
     public int Numero => this.numero;
 
-    public int Score => this.score;
+    public int Score
+    {
+        get => this.score;
+        set { score = value; }
+    }
 
     public int ValeurAttaque => this.valeurAttaque;
 

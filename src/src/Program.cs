@@ -1,5 +1,4 @@
 ﻿using System;
-using P24H.IAs.Drunked;
 using P24H.IAs.FaitRien;
 
 namespace P24H
@@ -11,7 +10,7 @@ namespace P24H
 
         static void Main(string[] args)
         {
-            var ia = new DrunkedIA();
+            IAV1pillageroute ia = new IAV1pillageroute();
             ia.Start("localhost", 1234);
         }
     }
