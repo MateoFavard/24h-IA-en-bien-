@@ -26,10 +26,11 @@ namespace P24H.IAs.Drunked
 
             Joueur me = joueur[this.IndexJoueur];
             // On recupère les routes attaquable si moins fort + pas de monstre ^^ 
-            var routesAttaquable = routes.ToList().FindAll(r => r.NiveauBateau <= me.ValeurAttaque && r.PresenceMonstre == false);
+            var routesAttaquable = routes.ToList().FindAll(r => r.ValeurAttaque <= me.ValeurAttaque && r.PresenceMonstre == false);
+            routesAttaquable = routesAttaquable.OrderByDescending(x => x.ValeurCoffre1).ToList();
 
             // Dernier tour, on vend
-            if (numeroDuTour == Constants.DERNIER_TOUR - 4)
+            if (numeroDuTour == Constants.DERNIER_TOUR - 1)
             {
                 command = new Receler();
             }
@@ -50,9 +51,9 @@ namespace P24H.IAs.Drunked
                     {
                         // On recrute si on peut cad si on a + que le cout de recrutement
                         double moyenneScoreJoueurs = joueur.Average(r => r.Score) + 50;
-                        double moyenneAttaqueRoutes = routes.Average(r => r.ValeurAttaque) - 10;
+                        double moyenneAttaqueRoutes = routes.Average(r => r.ValeurAttaque) + 10;
 
-                        if (me.Score > Constants.COUT_RECRUTEMENT + 100 && me.Score > moyenneScoreJoueurs && moyenneAttaqueRoutes < me.ValeurAttaque)
+                        if (me.Score > Constants.COUT_RECRUTEMENT + 100 && me.Score > moyenneScoreJoueurs && moyenneAttaqueRoutes > me.ValeurAttaque)
                         {
                             this.ExecuterCommande(new Recruter());
                         }
