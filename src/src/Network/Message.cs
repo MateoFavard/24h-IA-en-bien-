@@ -8,7 +8,7 @@ public class Message
 
     private Dictionary<string, MessageType> messageType = new Dictionary<string, MessageType>
     {
-        { Program.NomEquipe,  MessageType.NOM_EQUIPE_OK},
+        { Program.NomEquipe,  MessageType.NUMERO_EQUIPE},
         { "DEBUT_TOUR", MessageType.DEBUT_TOUR },
         { "FIN", MessageType.FIN },
     };
