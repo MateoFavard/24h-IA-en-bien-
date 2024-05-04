@@ -1,4 +1,5 @@
 ﻿using System;
+using P24H.IAs.Drunked;
 using P24H.IAs.FaitRien;
 
 namespace P24H
@@ -10,7 +11,7 @@ namespace P24H
 
         static void Main(string[] args)
         {
-            IAQuiFaitRien ia = new IAQuiFaitRien();
+            var ia = new DrunkedIA();
             ia.Start("localhost", 1234);
         }
     }
