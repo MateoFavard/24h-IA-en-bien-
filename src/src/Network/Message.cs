@@ -9,9 +9,9 @@ public class Message
     private Dictionary<string, MessageType> messageType = new Dictionary<string, MessageType>
     {
         { Program.NomEquipe,  MessageType.NOM_EQUIPE_OK},
-        { "DEBUT_TOUR", MessageType.DEBUT_TOUR, },
+        { "DEBUT_TOUR", MessageType.DEBUT_TOUR },
         { "FIN", MessageType.FIN },
-    }
+    };
 
     public Message Parse(string texte)
     {
