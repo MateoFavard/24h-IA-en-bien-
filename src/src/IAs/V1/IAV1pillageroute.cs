@@ -40,7 +40,7 @@ public class IAV1pillageroute : Client
             }
         }
         //partie vente
-        if (numeroDuTour == 119 && listeJoueur[this.IndexJoueur].NbCoffres > 0)
+        if (numeroDuTour == 120 && listeJoueur[this.IndexJoueur].NbCoffres > 0)
         {
             this.ExecuterCommande(new Receler());
         }
@@ -63,7 +63,7 @@ public class IAV1pillageroute : Client
                 foreach (Joueur joueur in listeJoueur)
                 {
                     if (joueur.ValeurAttaque < listeJoueur[this.IndexJoueur].ValeurAttaque &&
-                        (joueur.Activite == TypeActivite.Attaque))
+                        ((joueur.Activite == TypeActivite.Piller1) || (joueur.Activite == TypeActivite.Piller2) || (joueur.Activite == TypeActivite.Piller3) || (joueur.Activite == TypeActivite.Piller4) || (joueur.Activite == TypeActivite.Piller4)))
                     {
                         if (joueur.ValeurButins > meilleurJoueur.ValeurButins)
                         {
