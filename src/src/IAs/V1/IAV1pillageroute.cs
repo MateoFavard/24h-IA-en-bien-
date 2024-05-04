@@ -59,12 +59,11 @@ public class IAV1pillageroute : Client
             else
             {
                 //partie trahison/route
-                Joueur meilleurJoueur = listeJoueur[0];
+                Joueur meilleurJoueur = new Joueur(this.NumeroEquipe,0,0,5,TypeActivite.Aucune,0,0);
                 foreach (Joueur joueur in listeJoueur)
                 {
                     if (joueur.ValeurAttaque < listeJoueur[this.IndexJoueur].ValeurAttaque &&
-                        joueur.Activite != TypeActivite.Aucune && joueur.Activite != TypeActivite.Reparation &&
-                        joueur.Activite != TypeActivite.Recele)
+                        (joueur.Activite == TypeActivite.Attaque))
                     {
                         if (joueur.ValeurButins > meilleurJoueur.ValeurButins)
                         {
@@ -73,7 +72,7 @@ public class IAV1pillageroute : Client
                     }
                 }
 
-                Route meilleurRoute = listRoute[0];
+                Route meilleurRoute = new Route(10,1,1000,0,0,0,true);
                 foreach (Route route in listRoute)
                 {
                     if (route.ValeurAttaque < listeJoueur[this.IndexJoueur].ValeurAttaque && !route.PresenceMonstre)
