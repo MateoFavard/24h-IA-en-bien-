@@ -13,13 +13,13 @@ public class IAV1pillageroute : Client
         //partie recrutement
         if (numeroDuTour < 100)
         {
-            if (listeJoueur[this.NumeroEquipe].Score > 500)
+            if (listeJoueur[this.IndexJoueur].Score > 500)
             {
                 foreach (Joueur joueur in listeJoueur)
                 {
-                    if (joueur.ValeurAttaque > listeJoueur[this.NumeroEquipe].ValeurAttaque)
+                    if (joueur.ValeurAttaque > listeJoueur[this.IndexJoueur].ValeurAttaque)
                     {
-                        while (joueur.ValeurAttaque > listeJoueur[this.NumeroEquipe].ValeurAttaque || listeJoueur[this.NumeroEquipe].Score > 500 )
+                        while (joueur.ValeurAttaque > listeJoueur[this.IndexJoueur].ValeurAttaque || listeJoueur[this.IndexJoueur].Score > 500 )
                         {
                             this.ExecuterCommande(new Recruter());
                         }
@@ -27,9 +27,9 @@ public class IAV1pillageroute : Client
                 }
                 foreach (Route route in listRoute)
                 {
-                    if (route.ValeurAttaque > listeJoueur[this.NumeroEquipe].ValeurAttaque)
+                    if (route.ValeurAttaque > listeJoueur[this.IndexJoueur].ValeurAttaque)
                     {
-                        while (route.ValeurAttaque > listeJoueur[this.NumeroEquipe].ValeurAttaque || listeJoueur[this.NumeroEquipe].Score > 500 )
+                        while (route.ValeurAttaque > listeJoueur[this.IndexJoueur].ValeurAttaque || listeJoueur[this.IndexJoueur].Score > 500 )
                         {
                             this.ExecuterCommande(new Recruter());
                         }
@@ -38,16 +38,16 @@ public class IAV1pillageroute : Client
             }
         }
         //partie vente
-        if (numeroDuTour == 119 && listeJoueur[this.NumeroEquipe].NbCoffres > 0)
+        if (numeroDuTour == 119 && listeJoueur[this.IndexJoueur].NbCoffres > 0)
         {
             this.ExecuterCommande(new Receler());
         }
-        if (listeJoueur[this.NumeroEquipe].NbCoffres >= 3)
+        if (listeJoueur[this.IndexJoueur].NbCoffres >= 3)
         {
             this.ExecuterCommande(new Receler());
         }
         //partie réparation
-        if (listeJoueur[this.NumeroEquipe].Vie <= 3)
+        if (listeJoueur[this.IndexJoueur].Vie <= 3)
         {
             this.ExecuterCommande(new Reparer());
         }
@@ -55,7 +55,7 @@ public class IAV1pillageroute : Client
         Joueur meilleurJoueur = listeJoueur[0];
         foreach (Joueur joueur in listeJoueur)
         {
-            if (joueur.ValeurAttaque < listeJoueur[this.NumeroEquipe].ValeurAttaque &&
+            if (joueur.ValeurAttaque < listeJoueur[this.IndexJoueur].ValeurAttaque &&
                 joueur.Activite != TypeActivite.Aucune && joueur.Activite != TypeActivite.Reparation &&
                 joueur.Activite != TypeActivite.Recele)
             {
@@ -69,7 +69,7 @@ public class IAV1pillageroute : Client
         Route meilleurRoute = listRoute[0];
         foreach (Route route in listRoute)
         {
-            if (route.ValeurAttaque < listeJoueur[this.NumeroEquipe].ValeurAttaque && !route.PresenceMonstre)
+            if (route.ValeurAttaque < listeJoueur[this.IndexJoueur].ValeurAttaque && !route.PresenceMonstre)
             {
                 if (route.ValeurCoffre1 > meilleurRoute.ValeurCoffre1)
                 {
