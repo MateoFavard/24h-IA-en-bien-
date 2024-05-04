@@ -9,6 +9,7 @@ public class Client
     private StreamReader reader;
     private StreamWriter writer;
     private int numeroEquipe;
+    private bool tourFini;
 
     public int NumeroEquipe() => this.numeroEquipe;
 
@@ -63,6 +64,7 @@ public class Client
             break;
 
         case Notification.DebutTour(int numero):
+            this.tourFini = false;
             this.Tour(numero);
             break;
 
@@ -78,6 +80,9 @@ public class Client
 
     public void ExecuterCommande(ICommand commande)
     {
+        if (this.tourFini) throw new TourDejaFiniException();
+        if (commande.TermineTour) this.tourFini = true;
+
         this.Send(commande.BuildMessage());
         String? messageText = this.Receive();
         if (messageText == null)
@@ -92,6 +97,9 @@ public class Client
     
     public T Demander<T>(IQuery<T> demande)
     {
+        if (this.tourFini) throw new TourDejaFiniException();
+        if (demande.TermineTour) this.tourFini = true;
+
         this.Send(demande.BuildQueryMessage());
         String? messageText = this.Receive();
         if (messageText == null) throw new NullReferenceException("Réponse null");
