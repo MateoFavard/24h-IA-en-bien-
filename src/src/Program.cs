@@ -8,7 +8,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
 
         static void Main(string[] args)
         {
-            Console.WriteLine("A.T.D.L.E.D.W.N.S.E!");
+            Console.WriteLine("Aucun travail durant l'épreuve de web ne sera effectué !");
         }
     }
 }
