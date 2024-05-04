@@ -1,3 +1,4 @@
+using P24H.Model;
 using P24H.Network;
 
 namespace P24H.IAs.FaitRien;
@@ -6,10 +7,14 @@ public class IAQuiFaitRien : Client
 {
     public override void Tour(int numeroDuTour)
     {
-        for (int i = 0; i < 20; i++)
+        Joueur[] joueurs = this.Demander(new InfosJoueurs());
+        foreach (Joueur joueur in joueurs)
         {
-            Console.WriteLine($"demander infos #{i+1}");
-            this.Demander(new InfosJoueurs());
+            if (joueur.NbCoffres > 0)
+            {
+                this.ExecuterCommande(new Trahir(joueur.Numero));
+                return;
+            }
         }
     }
 }
