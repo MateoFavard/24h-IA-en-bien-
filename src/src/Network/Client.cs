@@ -9,7 +9,9 @@ public class Client
     private StreamReader reader;
     private StreamWriter writer;
     private int numeroEquipe;
-    private bool tourFini;
+    private int actionsTour;
+
+    private const int MAX_NB_ACTION_TOUR = 15;
 
     public int NumeroEquipe => this.numeroEquipe;
 
@@ -73,7 +75,7 @@ public class Client
             break;
 
         case Notification.DebutTour(int numero):
-            this.tourFini = false;
+            this.actionsTour = 0;
             try
             {
                 this.Tour(numero);
@@ -97,8 +99,7 @@ public class Client
 
     public void ExecuterCommande(ICommand commande)
     {
-        if (this.tourFini) throw new TourDejaFiniException();
-        if (commande.TermineTour) this.tourFini = true;
+        this.VerifierActionEstPossible(commande.TermineTour);
 
         this.Send(commande.BuildMessage());
         String? messageText = this.Receive();
@@ -111,15 +112,34 @@ public class Client
             throw new NOKMessageException(messageText.Split('|')[1]);
         }
     }
-    
+
     public T Demander<T>(IQuery<T> demande)
     {
-        if (this.tourFini) throw new TourDejaFiniException();
-        if (demande.TermineTour) this.tourFini = true;
+        this.VerifierActionEstPossible(demande.TermineTour);
 
         this.Send(demande.BuildQueryMessage());
         String? messageText = this.Receive();
         if (messageText == null) throw new NullReferenceException("Réponse null");
         return demande.ParseResponseMessage(messageText);
+    }
+
+    private void VerifierActionEstPossible(bool termineTour)
+    {
+        if (this.actionsTour < 0)
+        {
+            throw new TourDejaFiniException();
+        }
+        if (this.actionsTour >= MAX_NB_ACTION_TOUR)
+        {
+            throw new PlusDActionsPossiblesException();
+        }
+        if (termineTour)
+        {
+            this.actionsTour = -1;
+        }
+        else
+        {
+            this.actionsTour++;
+        }
     }
 }
