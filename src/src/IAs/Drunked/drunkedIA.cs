@@ -15,6 +15,7 @@ namespace P24H.IAs.Drunked
         int argentMinimumPourRecruter = 800;
         int nombreCoffrePourVendre = 3;
         int aucuneRoute = 0;
+        Joueur me = null;
 
 
         public override void Tour(int numeroDuTour)
@@ -24,15 +25,19 @@ namespace P24H.IAs.Drunked
             var joueur = this.Demander(new InfosJoueurs());
             var routes = this.Demander(new InfosRoutes());
 
-            Joueur me = joueur[this.IndexJoueur];
+            this.me = joueur[this.IndexJoueur];
             // On recupère les routes attaquable si moins fort + pas de monstre ^^ 
             var routesAttaquable = routes.ToList().FindAll(r => r.ValeurAttaque <= me.ValeurAttaque && r.PresenceMonstre == false);
             routesAttaquable = routesAttaquable.OrderByDescending(x => x.ValeurCoffre1).ToList();
 
             // Dernier tour, on vend
-            if (numeroDuTour == Constants.DERNIER_TOUR - 1)
+            if (numeroDuTour == Constants.DERNIER_TOUR - 3 || numeroDuTour == Constants.DERNIER_TOUR - 1)
             {
                 command = new Receler();
+            }
+            else if (numeroDuTour == Constants.DERNIER_TOUR)
+            {
+                command = this.Trahir(joueur);
             }
             else
             {
@@ -53,14 +58,12 @@ namespace P24H.IAs.Drunked
                         double moyenneScoreJoueurs = joueur.Average(r => r.Score) + 50;
                         double moyenneAttaqueRoutes = routes.Average(r => r.ValeurAttaque) + 10;
 
-                        if (me.Score > Constants.COUT_RECRUTEMENT + 100 && me.Score > moyenneScoreJoueurs && moyenneAttaqueRoutes > me.ValeurAttaque)
+                        Route routeAttaqueReference = routes.ToList().OrderByDescending(o => o.ValeurAttaque).ToList()[1];
+                        if (this.me.ValeurAttaque <= routeAttaqueReference.ValeurAttaque && me.Score > Constants.COUT_RECRUTEMENT && me.Score > moyenneScoreJoueurs)
                         {
                             this.ExecuterCommande(new Recruter());
                         }
-                        else if (me.Score > Constants.COUT_RECRUTEMENT + 100 && me.ValeurAttaque <= moyenneAttaqueRoutes)
-                        {
-                            this.ExecuterCommande(new Recruter());
-                        }
+                       
                         
                         // Routes attaquables
                         if (routesAttaquable.Count > aucuneRoute)
@@ -80,9 +83,19 @@ namespace P24H.IAs.Drunked
 
         private Trahir Trahir(Joueur[] joueurs)
         {
-            var listJoueurByScore = joueurs.OrderBy(r => r.Score).ToList();
-            Joueur joueurATrahir = listJoueurByScore.ToList().First();
-            return new Trahir(joueurATrahir.Numero);
+            int nbJoueur = joueurs.Count();
+            int indexJoueur = joueurs.OrderBy(r => r.Score).ToList().IndexOf(this.me);
+            if ( indexJoueur != nbJoueur)
+            {
+                indexJoueur -= 1;
+            }
+            else
+            {
+                indexJoueur += 1;
+            }
+            //var listJoueurByScore = joueurs.OrderBy(r => r.Score).ToList();
+            //Joueur joueurATrahir = listJoueurByScore.ToList().First();
+            return new Trahir(indexJoueur);
         }
     }
 }
