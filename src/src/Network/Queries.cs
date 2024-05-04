@@ -41,6 +41,7 @@ public class InfosJoueurs : IQuery<Joueur[]>
             String[] infos = texteJoueur.Split(";");
             
             joueurs[i] = new Joueur(
+                i + 1,
                 int.Parse(infos[0]),
                 int.Parse(infos[1]),
                 int.Parse(infos[2]),
@@ -72,8 +73,9 @@ public class InfosRoutes : IQuery<Route[]>
         {
             string texteJoueur = texteRoutes[i];
             String[] infos = texteJoueur.Split(";");
-            
+
             routes[i] = new Route(
+                i + 1,
                 int.Parse(infos[0]),
                 int.Parse(infos[1]),
                 int.Parse(infos[2]),
