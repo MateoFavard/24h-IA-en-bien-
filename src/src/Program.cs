@@ -12,8 +12,7 @@ namespace P24H
 
         static void Main(string[] args)
         {
-            var ia = new IAV1pillageroute();
-            ia.Start("localhost", 1234);
+            LancerPlusieursIAs(new Client[] {new DrunkedIA(), new DrunkedIA(), new DrunkedIA(), new IAV1pillageroute()}, "localhost",1234);
         }
 
         static void LancerPlusieursIAs(Client[] ias, string address, int port)

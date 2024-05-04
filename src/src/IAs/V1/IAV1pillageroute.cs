@@ -9,6 +9,11 @@ public class IAV1pillageroute : Client
     {
         Joueur[] listeJoueur = this.Demander(new InfosJoueurs());
         Route[] listRoute = this.Demander(new InfosRoutes());
+
+        foreach(Route route in listRoute)
+        {
+            route.TrouverMeilleurCoffreDisponible(listeJoueur);
+        }
         
         //partie recrutement
         if (numeroDuTour < 100)
@@ -77,7 +82,7 @@ public class IAV1pillageroute : Client
                 {
                     if (route.ValeurAttaque < listeJoueur[this.IndexJoueur].ValeurAttaque && !route.PresenceMonstre)
                     {
-                        if (route.ValeurCoffre1 > meilleurRoute.ValeurCoffre1 )
+                        if (route.ValeurMeilleurCoffreDisponible > meilleurRoute.ValeurMeilleurCoffreDisponible)
                         {
                             meilleurRoute = route;
                         }
@@ -85,7 +90,7 @@ public class IAV1pillageroute : Client
                 }
 
                 if (meilleurRoute.ValeurCoffre1 >
-                    (meilleurJoueur.NbCoffres == 0 ? 0 : (meilleurJoueur.ValeurButins / meilleurJoueur.NbCoffres) * listeJoueur.Count(j=>j.Activite == TypeActivite.Attaque))) // * nbGens qui attaque
+                    (meilleurJoueur.NbCoffres == 0 ? 0 : (meilleurJoueur.ValeurButins / meilleurJoueur.NbCoffres) * listeJoueur.Count(j=>j.Activite.EstPillage()))) // * nbGens qui attaque
                 {
                     this.ExecuterCommande(new Piller(meilleurRoute.Numero));
                 }
