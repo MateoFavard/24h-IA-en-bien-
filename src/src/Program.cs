@@ -1,6 +1,7 @@
 ﻿using System;
 using P24H.IAs.Drunked;
 using P24H.IAs.FaitRien;
+using P24H.Network;
 
 namespace P24H
 {
@@ -13,6 +14,23 @@ namespace P24H
         {
             var ia = new IAV1pillageroute();
             ia.Start("localhost", 1234);
+        }
+
+        static void LancerPlusieursIAs(Client[] ias, string address, int port)
+        {
+            List<Thread> threads = new List<Thread>();
+            
+            foreach (Client ia in ias)
+            {
+                Thread threadIA = new Thread(() => ia.Start(address, port));
+                threadIA.Start();
+                threads.Add(threadIA);
+            }
+
+            foreach (Thread thread in threads)
+            {
+                thread.Join();
+            }
         }
     }
 }

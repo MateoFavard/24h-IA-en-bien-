@@ -10,6 +10,7 @@ public class Client
     private StreamWriter writer;
     private int numeroEquipe;
     private int actionsTour;
+    private bool running = true;
 
     private const int MAX_NB_ACTION_TOUR = 15;
 
@@ -42,8 +43,7 @@ public class Client
         this.writer = new StreamWriter(this.tcpClient.GetStream());
         this.writer.AutoFlush = true;
 
-        bool running = true;
-        while (running)
+        while (this.running)
         {
             String? messageText = this.Receive();
             if (messageText != null)
@@ -89,6 +89,7 @@ public class Client
 
         case Notification.Fin:
             this.FinPartie();
+            this.running = false;
             break;
         }
     }

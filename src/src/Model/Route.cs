@@ -9,8 +9,10 @@ public class Route
     private int valeurCoffre2;
     private int valeurCoffre3;
     private bool presenceMonstre;
+    private int valeurMeilleurCoffreDisponible;
 
-    public Route(int numero, int niveauBateau, int valeurAttaque, int valeurCoffre1, int valeurCoffre2, int valeurCoffre3, bool presenceMonstre)
+    public Route(int numero, int niveauBateau, int valeurAttaque, int valeurCoffre1, int valeurCoffre2,
+        int valeurCoffre3, bool presenceMonstre)
     {
         this.numero = numero;
         this.niveauBateau = niveauBateau;
@@ -19,6 +21,7 @@ public class Route
         this.valeurCoffre2 = valeurCoffre2;
         this.valeurCoffre3 = valeurCoffre3;
         this.presenceMonstre = presenceMonstre;
+        this.valeurMeilleurCoffreDisponible = valeurCoffre1;
     }
 
     public int Numero => this.numero;
@@ -34,4 +37,27 @@ public class Route
     public int ValeurCoffre3 => this.valeurCoffre3;
 
     public bool PresenceMonstre => this.presenceMonstre;
+
+    public void TrouverMeilleurCoffreDisponible(Joueur[] joueurs)
+    {
+        TypeActivite activitePillageCetteRoute = (TypeActivite)this.numero;
+        int nbJoueursSurCetteRoute = joueurs.Count(j => j.Activite == activitePillageCetteRoute);
+        switch (nbJoueursSurCetteRoute)
+        {
+        case 0:
+            this.valeurMeilleurCoffreDisponible = this.valeurCoffre1;
+            break;
+        case 1:
+            this.valeurMeilleurCoffreDisponible = this.valeurCoffre2;
+            break;
+        case 2:
+            this.valeurMeilleurCoffreDisponible = this.valeurCoffre3;
+            break;
+        default:
+            this.valeurMeilleurCoffreDisponible = 0;
+            break;
+        }
+    }
+
+    public int ValeurMeilleurCoffreDisponible => this.valeurMeilleurCoffreDisponible;
 }
