@@ -6,8 +6,10 @@ public class IAQuiFaitRien : Client
 {
     public override void Tour(int numeroDuTour)
     {
-        this.Demander(new InfosJoueurs());
-        this.Demander(new InfosRoutes());
-        this.ExecuterCommande(new Reparer());
+        for (int i = 0; i < 20; i++)
+        {
+            Console.WriteLine($"demander infos #{i+1}");
+            this.Demander(new InfosJoueurs());
+        }
     }
 }

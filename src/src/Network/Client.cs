@@ -9,9 +9,13 @@ public class Client
     private StreamReader reader;
     private StreamWriter writer;
     private int numeroEquipe;
-    private bool tourFini;
+    private int actionsTour;
 
-    public int NumeroEquipe() => this.numeroEquipe;
+    private const int MAX_NB_ACTION_TOUR = 15;
+
+    public int NumeroEquipe => this.numeroEquipe;
+
+    public int IndexJoueur => this.numeroEquipe - 1;
 
     private String? Receive()
     {
@@ -44,15 +48,8 @@ public class Client
             String? messageText = this.Receive();
             if (messageText != null)
             {
-                try
-                {
-                    Notification message = Notification.Parse(messageText);
-                    this.OnNotification(message);
-                }
-                catch (UnknownMessageException exception)
-                {
-                    Console.WriteLine($"Message ignoré : {exception}");
-                }
+                Notification message = Notification.Parse(messageText); 
+                this.OnNotification(message);
             }
         }
     }
@@ -71,16 +68,7 @@ public class Client
             break;
 
         case Notification.DebutTour(int numero):
-            this.tourFini = false;
-            try
-            {
-                this.Tour(numero);
-            }
-            catch (P24HException exception)
-            {
-                Console.WriteLine($"Tour interrompu à cuase de : {exception}");
-            }
-
+            this.Tour(numero);
             break;
 
         case Notification.Fin:
@@ -95,9 +83,6 @@ public class Client
 
     public void ExecuterCommande(ICommand commande)
     {
-        if (this.tourFini) throw new TourDejaFiniException();
-        if (commande.TermineTour) this.tourFini = true;
-
         this.Send(commande.BuildMessage());
         String? messageText = this.Receive();
         if (messageText == null)
@@ -112,9 +97,6 @@ public class Client
     
     public T Demander<T>(IQuery<T> demande)
     {
-        if (this.tourFini) throw new TourDejaFiniException();
-        if (demande.TermineTour) this.tourFini = true;
-
         this.Send(demande.BuildQueryMessage());
         String? messageText = this.Receive();
         if (messageText == null) throw new NullReferenceException("Réponse null");
