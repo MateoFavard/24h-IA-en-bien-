@@ -2,6 +2,7 @@ namespace P24H.Model;
 
 public class Route
 {
+    private int numero;
     private int niveauBateau;
     private int valeurAttaque;
     private int valeurCoffre1;
@@ -9,8 +10,9 @@ public class Route
     private int valeurCoffre3;
     private bool presenceMonstre;
 
-    public Route(int niveauBateau, int valeurAttaque, int valeurCoffre1, int valeurCoffre2, int valeurCoffre3, bool presenceMonstre)
+    public Route(int numero, int niveauBateau, int valeurAttaque, int valeurCoffre1, int valeurCoffre2, int valeurCoffre3, bool presenceMonstre)
     {
+        this.numero = numero;
         this.niveauBateau = niveauBateau;
         this.valeurAttaque = valeurAttaque;
         this.valeurCoffre1 = valeurCoffre1;
@@ -18,6 +20,8 @@ public class Route
         this.valeurCoffre3 = valeurCoffre3;
         this.presenceMonstre = presenceMonstre;
     }
+
+    public int Numero => this.numero;
 
     public int NiveauBateau => this.niveauBateau;
 
