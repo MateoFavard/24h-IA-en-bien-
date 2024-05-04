@@ -49,8 +49,14 @@ public class IAV1pillageroute : Client
         {
             this.ExecuterCommande(new Receler());
         }
-        
-        if (listeJoueur[this.IndexJoueur].NbCoffres >= 3)
+
+        int TotalButin = 0;
+        foreach(Joueur joueur in listeJoueur)
+        {
+            TotalButin += joueur.ValeurButins;
+        }
+
+        if (listeJoueur[this.IndexJoueur].ValeurButins >= (TotalButin/ listeJoueur.Length))
         {
             this.ExecuterCommande(new Receler());
         }
