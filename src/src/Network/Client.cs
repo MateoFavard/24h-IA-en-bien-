@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using MyApp;
 
 namespace P24H.Network;
 
@@ -39,6 +40,8 @@ public class Client
         this.tcpClient.Connect(address, port);
         this.reader = new StreamReader(this.tcpClient.GetStream());
         this.writer = new StreamWriter(this.tcpClient.GetStream());
+        
+        this.Send(Program.NomEquipe);
 
         bool running = true;
         while (running)
