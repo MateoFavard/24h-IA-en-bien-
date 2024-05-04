@@ -3,6 +3,7 @@ using P24H.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,48 +24,53 @@ namespace P24H.IAs.Drunked
             var joueur = this.Demander(new InfosJoueurs());
             var routes = this.Demander(new InfosRoutes());
 
-            Joueur me = joueur[this.NumeroEquipe - 1];
-
+            Joueur me = joueur[this.IndexJoueur];
             // On recupère les routes attaquable si moins fort + pas de monstre ^^ 
-            var routesAttaquable = routes.ToList().FindAll(r => r.NiveauBateau <= me.ValeurAttaque && r.PresenceMonstre == false);
+            var routesAttaquable = routes.ToList().FindAll(r => r.ValeurAttaque <= me.ValeurAttaque && r.PresenceMonstre == false);
+            routesAttaquable = routesAttaquable.OrderByDescending(x => x.ValeurCoffre1).ToList();
 
             // Dernier tour, on vend
-            if (numeroDuTour == Constants.DERNIER_TOUR - 4)
-                this.ExecuterCommande(new Receler());
-
-            // j'ai pas de vie
-            if (me.Vie < this.vieMinimumPourSeSoigner)
+            if (numeroDuTour == Constants.DERNIER_TOUR - 1)
             {
-                command = new Reparer();
+                command = new Receler();
             }
-            else // j'ai de la vie
+            else
             {
-                if(me.NbCoffres > nombreCoffrePourVendre) // Beaucoup de coffre à vendre
+                // j'ai pas de vie
+                if (me.Vie < this.vieMinimumPourSeSoigner)
                 {
-                    command = new Receler();
+                    command = new Reparer();
                 }
-                else // On pille ^^ 
+                else // j'ai de la vie
                 {
-                    // On recrute si on peut cad si on a + que le cout de recrutement
-                    double moyenneScoreJoueurs = joueur.Average(r => r.Score) + 50;
-                    double moyenneAttaqueRoutes = routes.Average(r => r.ValeurAttaque);
-
-                    /*  if (me.Score > Constants.COUT_RECRUTEMENT + 100 && me.Score > moyenneScoreJoueurs)
+                    if (me.NbCoffres > nombreCoffrePourVendre) // Beaucoup de coffre à vendre
                     {
-                        command = new Recruter();
-                    }*/
-                    /*else if (me.Score > Constants.COUT_RECRUTEMENT + 100 && me.ValeurAttaque <= moyenneAttaqueRoutes)
-                    {
-                        command = new Recruter();
-                    }*/
-                    // Routes attaquables
-                    if (routesAttaquable.Count > aucuneRoute)
-                    {
-                        command = new Piller(routesAttaquable[0].Numero);
+                        command = new Receler();
                     }
-                    else // Aucune route à attaquer
+                    else // On pille ^^ 
                     {
-                        command = this.Trahir(joueur);
+                        // On recrute si on peut cad si on a + que le cout de recrutement
+                        double moyenneScoreJoueurs = joueur.Average(r => r.Score) + 50;
+                        double moyenneAttaqueRoutes = routes.Average(r => r.ValeurAttaque) + 10;
+
+                        if (me.Score > Constants.COUT_RECRUTEMENT + 100 && me.Score > moyenneScoreJoueurs && moyenneAttaqueRoutes > me.ValeurAttaque)
+                        {
+                            this.ExecuterCommande(new Recruter());
+                        }
+                        else if (me.Score > Constants.COUT_RECRUTEMENT + 100 && me.ValeurAttaque <= moyenneAttaqueRoutes)
+                        {
+                            this.ExecuterCommande(new Recruter());
+                        }
+                        
+                        // Routes attaquables
+                        if (routesAttaquable.Count > aucuneRoute)
+                        {
+                            command = new Piller(routesAttaquable[0].Numero);
+                        }
+                        else // Aucune route à attaquer
+                        {
+                            command = this.Trahir(joueur);
+                        }
                     }
                 }
             }
