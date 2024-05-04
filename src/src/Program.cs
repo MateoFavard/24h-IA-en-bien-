@@ -8,7 +8,7 @@ namespace P24H
     internal class Program
     {
         // MAX 9 caractères
-        public static readonly string NomEquipe = "pilleur";
+        public static readonly string NomEquipe = "V1";
 
         static void Main(string[] args)
         {
